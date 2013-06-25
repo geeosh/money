@@ -10,6 +10,9 @@ module Money::Currency::Loader
     currencies = parse_currency_file("currency_iso.json")
     currencies.merge! parse_currency_file("currency_non_iso.json")
     currencies.merge! parse_currency_file("currency_backwards_compatible.json")
+    # Stringify keys
+    currencies.keys.each{|key| currencies[(key.to_sym rescue key) || key] = currencies.delete(key) }
+    currencies
   end
 
   private
